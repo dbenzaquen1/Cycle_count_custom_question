@@ -47,11 +47,11 @@
     <div class="dropdown-container">
         <input type="text" id="search" placeholder="Search..." onkeyup="filterDropdown()" onclick="openDropdown()">
         <div class="dropdown" id="dropdown">
-            <div>B1G</div>
-            <div>C20U</div>
-            <div>C13O</div>
-            <div>A8M</div>
-            <div>C14N</div>
+            <div onclick="selectOption(this)">B1G</div>
+            <div onclick="selectOption(this)">C20U</div>
+            <div onclick="selectOption(this)">C13O</div>
+            <div onclick="selectOption(this)">A8M</div>
+            <div onclick="selectOption(this)">C14N</div>
         </div>
     </div>
     
@@ -82,6 +82,11 @@
         
         function openDropdown() {
             document.getElementById('dropdown').style.display = 'block';
+        }
+        
+        function selectOption(element) {
+            document.getElementById('search').value = element.textContent;
+            document.getElementById('dropdown').style.display = 'none';
         }
     </script>
 </body>
