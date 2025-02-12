@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .dropdown-container {
+            position: relative;
+            width: 300px;
+        }
+        .dropdown-container input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .dropdown {
+            position: absolute;
+            width: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+        }
+        .dropdown div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .dropdown div:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="dropdown-container">
+        <input type="text" id="search" placeholder="Search..." onkeyup="filterDropdown()" onclick="openDropdown()">
+        <div class="dropdown" id="dropdown">
+            <div>Option 1</div>
+            <div>Option 2</div>
+            <div>Option 3</div>
+            <div>Option 4</div>
+            <div>Option 5</div>
+        </div>
+    </div>
+    
+    <script>
+        function filterDropdown() {
+            let input = document.getElementById('search');
+            let filter = input.value.toLowerCase();
+            let dropdown = document.getElementById('dropdown');
+            let options = dropdown.getElementsByTagName('div');
+            
+            dropdown.style.display = 'block';
+            
+            let hasMatch = false;
+            for (let i = 0; i < options.length; i++) {
+                let txtValue = options[i].textContent || options[i].innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    options[i].style.display = "block";
+                    hasMatch = true;
+                } else {
+                    options[i].style.display = "none";
+                }
+            }
+            
+            if (!hasMatch || filter === '') {
+                dropdown.style.display = 'none';
+            }
+        }
+        
+        function openDropdown() {
+            document.getElementById('dropdown').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
