@@ -12,6 +12,7 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
+            padding: 20px 0;
         }
         .dropdown-container {
             position: relative;
@@ -32,7 +33,7 @@
             display: none;
         }
         .dropdown div {
-            padding: 100px;
+            padding: 10px;
             cursor: pointer;
         }
         .dropdown div:hover {
@@ -41,9 +42,6 @@
     </style>
 </head>
 <body>
-    <br>
-    <br>
-    <br>
     <div class="dropdown-container">
         <input type="text" id="search" placeholder="Search..." onkeyup="filterDropdown()" onclick="openDropdown()">
         <div class="dropdown" id="dropdown">
