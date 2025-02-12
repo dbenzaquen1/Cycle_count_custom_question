@@ -13,12 +13,13 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
-            padding: 40px 0;
+            padding: 40px 0 40px 0;
         }
         .dropdown-container {
             position: relative;
             width: 80%;
             max-width: 250px;
+            margin-bottom: 20px;
         }
         .dropdown-container input {
             width: 100%;
@@ -26,6 +27,7 @@
             font-size: 18px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
         .dropdown {
             position: absolute;
@@ -35,6 +37,7 @@
             max-height: 150px;
             overflow-y: auto;
             display: none;
+            box-sizing: border-box;
         }
         .dropdown div {
             padding: 10px;
