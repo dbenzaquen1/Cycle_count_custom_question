@@ -8,19 +8,26 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
+            padding: 40px 0 40px 0;
         }
         .dropdown-container {
             position: relative;
-            width: 300px;
+            width: 80%;
+            max-width: 250px;
+            margin-bottom: 20px;
         }
         .dropdown-container input {
             width: 100%;
-            padding: 10px;
-            font-size: 16px;
+            padding: 14px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
         .dropdown {
             position: absolute;
@@ -30,6 +37,7 @@
             max-height: 150px;
             overflow-y: auto;
             display: none;
+            box-sizing: border-box;
         }
         .dropdown div {
             padding: 10px;
@@ -41,14 +49,15 @@
     </style>
 </head>
 <body>
+    <p>Please enter the location:</p>
     <div class="dropdown-container">
         <input type="text" id="search" placeholder="Search..." onkeyup="filterDropdown()" onclick="openDropdown()">
         <div class="dropdown" id="dropdown">
-            <div>Option 1</div>
-            <div>Option 2</div>
-            <div>Option 3</div>
-            <div>Option 4</div>
-            <div>Option 5</div>
+            <div onclick="selectOption(this)">B1G</div>
+            <div onclick="selectOption(this)">C20U</div>
+            <div onclick="selectOption(this)">C13O</div>
+            <div onclick="selectOption(this)">A8M</div>
+            <div onclick="selectOption(this)">C14N</div>
         </div>
     </div>
     
@@ -79,6 +88,11 @@
         
         function openDropdown() {
             document.getElementById('dropdown').style.display = 'block';
+        }
+        
+        function selectOption(element) {
+            document.getElementById('search').value = element.textContent;
+            document.getElementById('dropdown').style.display = 'none';
         }
     </script>
 </body>
