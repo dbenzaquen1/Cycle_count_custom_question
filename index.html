@@ -71,7 +71,7 @@
     <p>Please enter the location:</p>
     <div class="dropdown-container">
         <input type="text" id="search" placeholder="Search..." 
-               onkeyup="filterDropdown()" onclick="showDropdown()" 
+               onkeyup="filterDropdown()" onclick="showDropdown()"  oninput="fireAnswerForCR()"
                onblur="validateInput()" onkeydown="navigateDropdown(event)">
         <div class="dropdown" id="dropdown"></div>
     </div>
@@ -82,11 +82,13 @@
 
         // Fetch locations when the page loads
         window.onload = async function() {
-            alert(username);
             await fetchLocations();
-
         };
 
+        function fireAnswerForCR() {
+             alert(username);
+            window.location = "codereadr:answerForCR:" + getAnswerForCR(); 
+        }
         /**
          * Fetches location data from the API
          * Populates the locations array and updates the dropdown
@@ -241,10 +243,15 @@
          * @returns {string} - JSON string with the selected location
          */
         function getAnswerForCR() {
+            var the_answer = [];  // Array to store selected locations
             var question = "Please enter the location?";
             var answer = document.getElementById('search').value.trim();
-
-            return JSON.stringify({ question: question, answer: answer });
+            if (answer) { 
+                the_answer.push(answer); 
+            } 
+            console.log(the_answer)
+ 
+            return JSON.stringify({the_answer});
         }
     </script>
 </body>
