@@ -71,8 +71,8 @@
 
     <script>
         let locations = [];
-        alert(__USERNAME__)
-        const username = "TestyMcTesterson01"
+        alert(`__USERNAME__`)
+        const username = `__USERNAME__`
         alert(username)
         // Stores the locations fetched from the API
         // Dynamically set username
@@ -243,16 +243,15 @@
             var the_answer = [];  // Array to store selected locations
             var question = "Please enter the location?";
             var answer = document.getElementById('search').value.trim();
-            if (answer) { 
-                the_answer.push(answer); 
-            } 
+            if (answer) {
+                the_answer.push(answer);
+            }
             console.log(the_answer)
- 
+
             return JSON.stringify({the_answer});
         }
     </script>
-    <p>__USERNAME__</p>
-        <p>Please enter the location:</p>
+        <p>Please enter the location:1</p>
         <div class="dropdown-container">
             <input type="text" id="search" placeholder="Search..."
                    onkeyup="filterDropdown()" onclick="showDropdown()"  oninput="fireAnswerForCR()"
