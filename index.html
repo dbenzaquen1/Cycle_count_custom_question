@@ -67,14 +67,7 @@
     </style>
 </head>
 <body>
-    <p>test</p>
-    <p>Please enter the locationad as fdsaD SADASDASD  AS:</p>
-    <div class="dropdown-container">
-        <input type="text" id="search" placeholder="Search..."
-               onkeyup="filterDropdown()" onclick="showDropdown()"  oninput="fireAnswerForCR()"
-               onblur="validateInput()" onkeydown="navigateDropdown(event)">
-        <div class="dropdown" id="dropdown"></div>
-    </div>
+
 
     <script>
         let locations = [];
@@ -258,5 +251,13 @@
             return JSON.stringify({the_answer});
         }
     </script>
+    <p>__USERNAME__</p>
+        <p>Please enter the location:</p>
+        <div class="dropdown-container">
+            <input type="text" id="search" placeholder="Search..."
+                   onkeyup="filterDropdown()" onclick="showDropdown()"  oninput="fireAnswerForCR()"
+                   onblur="validateInput()" onkeydown="navigateDropdown(event)">
+            <div class="dropdown" id="dropdown"></div>
+        </div>
 </body>
 </html>
