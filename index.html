@@ -3,73 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Dropdown Search with API</title>
-    <style>
-        /* Basic styling for the page */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            padding: 40px 0;
-        }
-
-        /* Container for the dropdown search input */
-        .dropdown-container {
-            position: relative;
-            width: 80%;
-            max-width: 250px;
-            margin-bottom: 20px;
-        }
-
-        /* Styling for the search input field */
-        .dropdown-container input {
-            width: 100%;
-            padding: 14px;
-            font-size: 18px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        /* Dropdown list styling */
-        .dropdown {
-            position: absolute;
-            width: 100%;
-            background: white;
-            border: 1px solid #ccc;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none; /* Hidden by default */
-            box-sizing: border-box;
-        }
-
-        /* Styling for dropdown items */
-        .dropdown div {
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        /* Hover and active state for dropdown items */
-        .dropdown div:hover, .dropdown div.active {
-            background-color: #ddd;
-        }
-
-        /* Message when no locations match the search */
-        .no-results {
-            text-align: center;
-            color: gray;
-            padding: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div style="font-size:xx-large" id="user">__USERNAME__</div>
-
     <script  type="text/javascript">
         var the_answer = document.getElementById("user").innerHTML;
         alert(the_answer)
@@ -254,7 +187,77 @@
             return JSON.stringify({the_answer});
         }
     </script>
+
+    
+    <title>Dropdown Search with API</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            padding: 40px 0;
+        }
+
+        /* Container for the dropdown search input */
+        .dropdown-container {
+            position: relative;
+            width: 80%;
+            max-width: 250px;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the search input field */
+        .dropdown-container input {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Dropdown list styling */
+        .dropdown {
+            position: absolute;
+            width: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none; /* Hidden by default */
+            box-sizing: border-box;
+        }
+
+        /* Styling for dropdown items */
+        .dropdown div {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Hover and active state for dropdown items */
+        .dropdown div:hover, .dropdown div.active {
+            background-color: #ddd;
+        }
+
+        /* Message when no locations match the search */
+        .no-results {
+            text-align: center;
+            color: gray;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+
+
         <p>Please enter the location:1</p>
+        <div style="font-size:xx-large" id="user">__USERNAME__</div>
         <div class="dropdown-container">
             <input type="text" id="search" placeholder="Search..."
                    onkeyup="filterDropdown()" onclick="showDropdown()"  oninput="fireAnswerForCR()"
