@@ -70,15 +70,16 @@
 
     <p>Please enter the location:</p>
     <div class="dropdown-container">
-        <input type="text" id="search" placeholder="Search..." 
+        <input type="text" id="search" placeholder="Search..."
                onkeyup="filterDropdown()" onclick="showDropdown()"  oninput="fireAnswerForCR()"
                onblur="validateInput()" onkeydown="navigateDropdown(event)">
         <div class="dropdown" id="dropdown"></div>
     </div>
 
     <script>
-        let locations = []; // Stores the locations fetched from the API
-        const username = __USERNAME__; // Dynamically set username
+        let locations = []; 
+        a// Stores the locations fetched from the API
+        const username = "TestyMcTesterson01"; // Dynamically set username
 
         // Fetch locations when the page loads
         window.onload = async function() {
