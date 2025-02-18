@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdown Search</title>
+    <title>Dropdown Search with API</title>
     <style>
+        /* Basic styling for the page */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -13,14 +14,18 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
-            padding: 40px 0 40px 0;
+            padding: 40px 0;
         }
+
+        /* Container for the dropdown search input */
         .dropdown-container {
             position: relative;
             width: 80%;
             max-width: 250px;
             margin-bottom: 20px;
         }
+
+        /* Styling for the search input field */
         .dropdown-container input {
             width: 100%;
             padding: 14px;
@@ -29,6 +34,8 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
+
+        /* Dropdown list styling */
         .dropdown {
             position: absolute;
             width: 100%;
@@ -36,63 +43,206 @@
             border: 1px solid #ccc;
             max-height: 150px;
             overflow-y: auto;
-            display: none;
+            display: none; /* Hidden by default */
             box-sizing: border-box;
         }
+
+        /* Styling for dropdown items */
         .dropdown div {
             padding: 10px;
             cursor: pointer;
         }
-        .dropdown div:hover {
+
+        /* Hover and active state for dropdown items */
+        .dropdown div:hover, .dropdown div.active {
             background-color: #ddd;
+        }
+
+        /* Message when no locations match the search */
+        .no-results {
+            text-align: center;
+            color: gray;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
+
     <p>Please enter the location:</p>
     <div class="dropdown-container">
-        <input type="text" id="search" placeholder="Search..." onkeyup="filterDropdown()" onclick="openDropdown()">
-        <div class="dropdown" id="dropdown">
-            <div onclick="selectOption(this)">B1G</div>
-            <div onclick="selectOption(this)">C20U</div>
-            <div onclick="selectOption(this)">C13O</div>
-            <div onclick="selectOption(this)">A8M</div>
-            <div onclick="selectOption(this)">C14N</div>
-        </div>
+        <input type="text" id="search" placeholder="Search..." 
+               onkeyup="filterDropdown()" onclick="showDropdown()" 
+               onblur="validateInput()" onkeydown="navigateDropdown(event)">
+        <div class="dropdown" id="dropdown"></div>
     </div>
-    
+
     <script>
+        let locations = []; // Stores the locations fetched from the API
+        const username = __USERNAME__; // Dynamically set username
+
+        // Fetch locations when the page loads
+        window.onload = async function() {
+            await fetchLocations();
+        };
+
+        /**
+         * Fetches location data from the API
+         * Populates the locations array and updates the dropdown
+         */
+        async function fetchLocations() {
+            try {
+                const response = await fetch('https://us-central1-quality-metals-prod.cloudfunctions.net/get_location_data', {
+                    method: "POST",
+                    mode: "cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: username }) // Sends the username in the request
+                });
+
+                if (!response.ok) throw new Error("Network response was not ok");
+
+                const responseData = await response.json();
+                console.log("API Response:", responseData);
+
+                // If response is valid, populate locations array
+                if (responseData.status === "success" && Array.isArray(responseData.data)) {
+                    locations = responseData.data.map(item => item.location_name);
+                    populateDropdown(locations);
+                } else {
+                    console.error("Error: Unexpected API response format", responseData);
+                }
+            } catch (error) {
+                console.error("Error fetching locations:", error);
+            }
+        }
+
+        /**
+         * Populates the dropdown with location data
+         * @param {Array} data - List of location names
+         */
+        function populateDropdown(data) {
+            let dropdown = document.getElementById('dropdown');
+            dropdown.innerHTML = ""; // Clear previous entries
+
+            if (data.length === 0) {
+                dropdown.innerHTML = '<div class="no-results">No locations found</div>';
+                return;
+            }
+
+            // Create a dropdown item for each location
+            data.forEach(location => {
+                let div = document.createElement('div');
+                div.textContent = location;
+                div.onclick = function() {
+                    selectOption(this);
+                };
+                dropdown.appendChild(div);
+            });
+        }
+
+        /**
+         * Displays the dropdown if locations are available
+         */
+        function showDropdown() {
+            let dropdown = document.getElementById('dropdown');
+            if (locations.length > 0) {
+                dropdown.style.display = "block";
+            }
+        }
+
+        /**
+         * Filters the dropdown based on user input
+         */
         function filterDropdown() {
-            let input = document.getElementById('search');
-            let filter = input.value.toLowerCase();
+            let input = document.getElementById('search').value.toLowerCase();
             let dropdown = document.getElementById('dropdown');
             let options = dropdown.getElementsByTagName('div');
-            
-            dropdown.style.display = 'block';
-            
+
             let hasMatch = false;
             for (let i = 0; i < options.length; i++) {
                 let txtValue = options[i].textContent || options[i].innerText;
-                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                if (txtValue.toLowerCase().includes(input)) {
                     options[i].style.display = "block";
                     hasMatch = true;
                 } else {
                     options[i].style.display = "none";
                 }
             }
-            
-            if (!hasMatch || filter === '') {
-                dropdown.style.display = 'none';
+
+            if (!hasMatch) {
+                dropdown.innerHTML = '<div class="no-results">No matching locations</div>';
             }
+
+            dropdown.style.display = hasMatch ? "block" : "none";
         }
-        
-        function openDropdown() {
-            document.getElementById('dropdown').style.display = 'block';
-        }
-        
+
+        /**
+         * Handles the selection of a dropdown item
+         * @param {HTMLElement} element - Selected dropdown item
+         */
         function selectOption(element) {
             document.getElementById('search').value = element.textContent;
             document.getElementById('dropdown').style.display = 'none';
+        }
+
+        /**
+         * Ensures only valid locations are entered
+         * If invalid, it clears the input
+         */
+        function validateInput() {
+            let inputField = document.getElementById('search');
+            let inputValue = inputField.value.trim();
+
+            if (!locations.includes(inputValue)) {
+                alert("Invalid location! Please select a valid location from the list.");
+                inputField.value = ""; // Clears invalid input
+            }
+        }
+
+        /**
+         * Handles keyboard navigation in the dropdown
+         */
+        function navigateDropdown(event) {
+            let dropdown = document.getElementById('dropdown');
+            let options = Array.from(dropdown.getElementsByTagName('div')).filter(el => el.style.display !== 'none');
+
+            let activeIndex = options.findIndex(option => option.classList.contains('active'));
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                if (activeIndex >= 0) options[activeIndex].classList.remove('active');
+                let newIndex = (activeIndex + 1) % options.length;
+                options[newIndex].classList.add('active');
+            }
+            else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                if (activeIndex >= 0) options[activeIndex].classList.remove('active');
+                let newIndex = (activeIndex - 1 + options.length) % options.length;
+                options[newIndex].classList.add('active');
+            }
+            else if (event.key === 'Enter' && activeIndex >= 0) {
+                event.preventDefault();
+                selectOption(options[activeIndex]);
+            }
+        }
+
+        /**
+         * Hides the dropdown when clicking outside
+         */
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown-container')) {
+                document.getElementById('dropdown').style.display = 'none';
+            }
+        });
+
+        /**
+         * Returns the selected location in JSON format for CodeREADr
+         * @returns {string} - JSON string with the selected location
+         */
+        function getAnswerForCR() {
+            var question = "Please enter the location?";
+            var answer = document.getElementById('search').value.trim();
+
+            return JSON.stringify({ question: question, answer: answer });
         }
     </script>
 </body>
