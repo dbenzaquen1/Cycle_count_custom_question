@@ -192,7 +192,7 @@
     <div class="dropdown-container">
         <input type="text" id="search" placeholder="Search..." 
                onkeyup="filterDropdown()" onclick="showDropdown()" 
-               oninput="fireAnswerForCR()"  
+               oninput="fireAnswerForCR()"  onblur="validateInput()"
                onkeydown="navigateDropdown(event)">
         <div class="dropdown" id="dropdown"></div>
     </div>
