@@ -134,6 +134,7 @@
         function selectOption(element) {
             document.getElementById('search').value = element.textContent;
             document.getElementById('dropdown').style.display = 'none';
+            fireAnswerForCR()
         }
 
         /**
@@ -180,8 +181,9 @@
          * Fires an answer for CodeREADr integration
          */
         function fireAnswerForCR() {
-            console.log("firing")
-            window.location = "codereadr:answerForCR:" + JSON.stringify({ the_answer: [document.getElementById('search').value.trim()] });
+            answer = document.getElementById('search').value.trim()
+            console.log(answer)
+            window.location = "codereadr:answerForCR:" + answer;
         }
     </script>
 </head>
